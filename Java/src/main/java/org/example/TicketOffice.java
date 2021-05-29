@@ -1,3 +1,5 @@
+package org.example;
+
 public class TicketOffice {
     
     public Reservation makeReservation(ReservationRequest request) {

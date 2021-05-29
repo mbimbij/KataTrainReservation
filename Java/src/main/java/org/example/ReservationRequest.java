@@ -1,3 +1,4 @@
+package org.example;
 
 public class ReservationRequest {
 	public final String trainId;

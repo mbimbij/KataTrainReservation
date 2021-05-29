@@ -1,3 +1,4 @@
+package org.example;
 
 public class Seat {
     public final String coach;
