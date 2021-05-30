@@ -1,16 +1,18 @@
 package org.example;
 
+import lombok.Value;
+
+@Value
 public class Seat {
-    public final String coach;
-    public final int seatNumber;
+  Coach coach;
+  int seatNumber;
+  BookingReference bookingReference;
 
-    public Seat(String coach, int seatNumber) {
-        this.coach = coach;
-        this.seatNumber = seatNumber;
-    }
+  public boolean isAvailable() {
+    return bookingReference.isBlank();
+  }
 
-    public boolean equals(Object o) {
-        Seat other = (Seat)o;
-        return coach==other.coach && seatNumber==other.seatNumber;
-    }
+  public boolean isBooked() {
+    return !bookingReference.isBlank();
+  }
 }
