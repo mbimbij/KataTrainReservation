@@ -1,28 +1,18 @@
 package org.example;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@EqualsAndHashCode
+@ToString
 public abstract class ValueObject<T> {
   private final T value;
 
-  public ValueObject(T value) {
+  protected ValueObject(T value) {
     this.value = value;
   }
 
   public T getValue() {
     return value;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ValueObject<?> that = (ValueObject<?>) o;
-    return Objects.equals(value, that.value);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(value);
   }
 }

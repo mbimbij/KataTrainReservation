@@ -2,7 +2,8 @@ package org.example;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.example.EmptyBookingReference.EMPTY_BOOKING_REFERENCE;
 
 public class TicketOffice {
 
@@ -16,21 +17,13 @@ public class TicketOffice {
 
   public Reservation makeReservation(ReservationRequest reservationRequest) {
     Train train = trainDataProvider.provideTrainData();
+    List<Seat> seatsForReservation = train.getSeatsForReservationIfPossible(reservationRequest);
 
-    if (totalReservationExceeds70Percents(train, reservationRequest)) {
-      return new Reservation(reservationRequest.trainId, Collections.emptyList(), EmptyBookingReference.instance.getValue());
+    if(seatsForReservation.isEmpty()){
+      return new Reservation(reservationRequest.trainId, Collections.emptyList(), EMPTY_BOOKING_REFERENCE.getValue());
     }
 
-    List<Seat> bookableSeats = train.getSeats()
-        .stream()
-        .filter(Seat::isAvailable)
-        .limit(reservationRequest.seatCount)
-        .collect(Collectors.toList());
-    return new Reservation(reservationRequest.trainId, bookableSeats, bookingReferenceProvider.provideBookingReference().getValue());
-  }
-
-  private boolean totalReservationExceeds70Percents(Train train, ReservationRequest reservationRequest) {
-    return train.bookedSeats() + reservationRequest.seatCount > train.totalCapacity() * 0.7;
+    return new Reservation(reservationRequest.trainId, seatsForReservation, bookingReferenceProvider.provideBookingReference().getValue());
   }
 
 }
